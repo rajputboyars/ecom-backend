@@ -63,3 +63,16 @@ export async function login(req, res) {
     res.status(500).json({ message: 'Error logging in user', error });
   }
 }
+export async function logout(req, res) {
+
+  try {
+    res.cookie("token", "", {
+      httpOnly: true,
+      maxAge: 0 // 1 hour
+    })
+
+    res.status(200).json({ message: 'Logout successful',success:true });
+  } catch (error) {
+    res.status(500).json({ message: 'Error logout in user', error });
+  }
+}

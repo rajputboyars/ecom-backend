@@ -1,4 +1,5 @@
 import User from '../models/user.js';
+import { getDataFromToken } from '../utils/getDataFromToken.js'
 
 export async function getAllUsers(req, res) {
     try {
@@ -23,7 +24,8 @@ export async function deleteUser(req, res) {
     }
 }
 export async function getUserById(req, res) {
-    const { userId } = req.params;
+    const userId = getDataFromToken(req)
+    // const { userId } = req.params;
 
     try {
         const user = await User.findById(userId);

@@ -10,6 +10,7 @@ import userRoutes from './routes/userRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import wishlistRoutes from './routes/wishlistRoutes.js';
 import { errorHandler } from './middlewares/errorHandler.js';  // Error handler middleware
+import cookieParser from 'cookie-parser';
 
 // Initialize express app
 const app = express();
@@ -22,12 +23,13 @@ dotenv.config();
 // const cors = require('cors');
 
 app.use(cors({
-  origin: 'http://localhost:3000',  // Frontend URL
+  origin: 'http://localhost:3000' ,  // Frontend URL
   credentials: true,  // Allow cookies
 }));
 
 // Middleware to parse incoming request bodies (JSON)
 app.use(express.json());
+app.use(cookieParser());
 
 // Connect to MongoDB
 connectDB();
