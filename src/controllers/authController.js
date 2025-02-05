@@ -52,7 +52,13 @@ export async function login(req, res) {
     // Generate a JWT token
     const token = jwt.sign({ id: user._id, role: user.role }, 'your_jwt_secret', { expiresIn: '1h' });
 
-    res.status(200).json({ message: 'Login successful', token,user });
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 3600000 // 1 hour
+    })
+
+    res.status(200).json({ message: 'Login successful', token, user });
   } catch (error) {
     res.status(500).json({ message: 'Error logging in user', error });
   }

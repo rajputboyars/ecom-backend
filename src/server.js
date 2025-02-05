@@ -18,7 +18,13 @@ const app = express();
 dotenv.config();
 
 // Middleware to handle CORS (Cross-Origin Resource Sharing)
-app.use(cors());
+// app.use(cors());
+// const cors = require('cors');
+
+app.use(cors({
+  origin: 'http://localhost:3000',  // Frontend URL
+  credentials: true,  // Allow cookies
+}));
 
 // Middleware to parse incoming request bodies (JSON)
 app.use(express.json());
