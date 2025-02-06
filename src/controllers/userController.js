@@ -24,8 +24,7 @@ export async function deleteUser(req, res) {
     }
 }
 export async function getUserById(req, res) {
-    const userId = getDataFromToken(req)
-    // const { userId } = req.params;
+    const { userId } = req.params;
 
     try {
         const user = await User.findById(userId);

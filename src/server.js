@@ -22,10 +22,19 @@ dotenv.config();
 // app.use(cors());
 // const cors = require('cors');
 
-app.use(cors({
-  origin: 'http://localhost:3000' ,  // Frontend URL
-  credentials: true,  // Allow cookies
-}));
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // Your frontend origin
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allowed HTTP methods
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
+  next();
+});
+
+
+// app.use(cors({
+//   origin: 'http://localhost:3000' ,  // Frontend URL
+//   methods:["get","post","put","delete"],
+//   credentials: true,  // Allow cookies
+// }));
 
 // Middleware to parse incoming request bodies (JSON)
 app.use(express.json());
@@ -36,11 +45,11 @@ connectDB();
 
 // Routes
 app.use('/api/auth', authRoutes);  // Authentication routes (login, register)
+app.use('/api/users', userRoutes);  // Admin user management routes
+app.use('/api/addresses', addressRoutes);  // User address routes
+app.use('/api/categories', categoryRoutes);  // Category and subcategory routes
 app.use('/api/products', productRoutes);  // Product routes (CRUD)
 app.use('/api/orders', orderRoutes);  // Order routes (creation, status)
-app.use('/api/addresses', addressRoutes);  // User address routes
-app.use('/api/users', userRoutes);  // Admin user management routes
-app.use('/api/categories', categoryRoutes);  // Category and subcategory routes
 app.use('/api/wishlist', wishlistRoutes);  // Wishlist routes
 
 // Global Error Handler (catch all errors)

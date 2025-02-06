@@ -1,14 +1,5 @@
 import mongoose from 'mongoose';
-
-// Address Schema for storing user addresses
-const addressSchema = new mongoose.Schema({
-  street: String,
-  city: String,
-  state: String,
-  postalCode: String,
-  country: String,
-  isDefault: { type: Boolean, default: false },
-}, { _id: false });
+import addressSchema from './address.js';
 
 // User Schema
 const userSchema = new mongoose.Schema({

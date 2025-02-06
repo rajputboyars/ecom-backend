@@ -6,6 +6,14 @@ export async function createCategory(req, res) {
   const { name, description, parentCategory } = req.body;
 
   try {
+    // Check if the category with the same name and description already exists
+    const existingCategory = await Category.findOne({ name, description });
+
+    if (existingCategory) {
+      // If a category already exists, return a message saying it's already there
+      return res.status(400).json({ message: 'Category with this name and description already exists' });
+    }
+
     const newCategory = new Category({ name, description, parentCategory });
     await newCategory.save();
     res.status(201).json(newCategory);
@@ -24,10 +32,10 @@ export async function getAllCategories(req, res) {
 }
 
 export async function getCategoryById(req, res) {
-  const { id } = req.params;
+  const { categoryId } = req.params;
 
   try {
-    const category = await Category.findById(id).populate('parentCategory');
+    const category = await Category.findById(categoryId).populate('parentCategory');
     if (!category) {
       return res.status(404).json({ message: 'Category not found' });
     }
@@ -38,11 +46,11 @@ export async function getCategoryById(req, res) {
 }
 
 export async function updateCategory(req, res) {
-  const { id } = req.params;
+  const { categoryId } = req.params;
   const { name, description, parentCategory } = req.body;
 
   try {
-    const updatedCategory = await Category.findByIdAndUpdate(id, { name, description, parentCategory }, { new: true });
+    const updatedCategory = await Category.findByIdAndUpdate(categoryId, { name, description, parentCategory }, { new: true });
     if (!updatedCategory) {
       return res.status(404).json({ message: 'Category not found' });
     }
@@ -53,10 +61,10 @@ export async function updateCategory(req, res) {
 }
 
 export async function deleteCategory(req, res) {
-  const { id } = req.params;
+  const { categoryId } = req.params;
 
   try {
-    const deletedCategory = await Category.findByIdAndDelete(id);
+    const deletedCategory = await Category.findByIdAndDelete(categoryId);
     if (!deletedCategory) {
       return res.status(404).json({ message: 'Category not found' });
     }

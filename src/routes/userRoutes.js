@@ -9,12 +9,12 @@ const router = express.Router();
 router.get('/', verifyToken, isAdmin, getAllUsers);
 
 // Get a specific user by ID (Admin only)
-router.get('/user', verifyToken, getUserById);
+router.get('/user/:userId', verifyToken, getUserById);
 
 // Update a user's information (Admin only)
-router.put('/user', verifyToken, isAdmin, updateUser);
+router.put('/:userId', verifyToken, isAdmin, updateUser);
 
 // Delete a user (Admin only)
-router.delete('/user', verifyToken, isAdmin, deleteUser);
+router.delete('/user/:userId', verifyToken, isAdmin, deleteUser);
 
 export default router;

@@ -1,9 +1,11 @@
 import Product from '../models/Product.js';
 import User from '../models/user.js';
+import { getDataFromToken } from '../utils/getDataFromToken.js';
 // import Product from "../models/product";
 
 export async function addToWishlist(req, res) {
-  const { userId, productId } = req.body;
+  const userId = getDataFromToken(req)
+  const { productId } = req.params;
 
   try {
     const user = await User.findById(userId);
@@ -28,7 +30,8 @@ export async function addToWishlist(req, res) {
 }
 
 export async function removeFromWishlist(req, res) {
-  const { userId, productId } = req.params;
+  const userId = getDataFromToken(req)
+  const { productId } = req.params;
 
   try {
     const user = await User.findById(userId);
@@ -47,7 +50,7 @@ export async function removeFromWishlist(req, res) {
 }
 
 export async function getWishlist(req, res) {
-  const { userId } = req.params;
+  const userId = getDataFromToken(req)
 
   try {
     const user = await User.findById(userId).populate('wishlist');
